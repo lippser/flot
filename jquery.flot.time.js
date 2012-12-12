@@ -147,7 +147,7 @@ API.txt for details.
 			return makeUtcWrapper(new Date(ts));
 		}
 	}
-	
+
 	// map of app. size of time units in milliseconds
 
 	var timeUnitSize = {
@@ -164,9 +164,9 @@ API.txt for details.
 
 	var spec = [
 		[1, "second"], [2, "second"], [5, "second"], [10, "second"],
-		[30, "second"], 
+		[30, "second"],
 		[1, "minute"], [2, "minute"], [5, "minute"], [10, "minute"],
-		[30, "minute"], 
+		[30, "minute"],
 		[1, "hour"], [2, "hour"], [4, "hour"],
 		[8, "hour"], [12, "hour"],
 		[1, "day"], [2, "day"], [3, "day"],
@@ -176,7 +176,7 @@ API.txt for details.
 	];
 
 	function init(plot) {
-		plot.hooks.processDatapoints.push(function (plot, series, datapoints) {
+		plot.hooks.processOffset.push(function () {
 			$.each(plot.getAxes(), function(axisName, axis) {
 
 				var opts = axis.options;
