@@ -73,7 +73,6 @@
                 // continue
                 return true;
             }
-            $legendPosition.y += (i * 18); // 18 is the height of a color box and label line
             // Draw 18x14 rectangle filled with the label box's border color
             ctx.fillStyle = $options.legend.labelBoxBorderColor;
             ctx.fillRect($legendPosition.x, $legendPosition.y, 18, 14);
@@ -92,6 +91,7 @@
                 $legendPosition.x + 22, // 22 is the width of a color box
                 $legendPosition.y
             );
+            $legendPosition.y += 18; // 18 is the height of a color box and label line
         });
         ctx.restore();
         $legend.remove();
