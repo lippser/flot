@@ -20,16 +20,16 @@
             return;
         }
         var $placeholder = $plot.getPlaceholder(),
-            $legend = $placeholder.find('.legend');
+            $legend = $placeholder.find('.legend'),
+            $legendHtml = $legend.html();
 //            $legendPosition = $legend.position(); doesn't work Node.js and jsdom ;-(
-        if (!$legend) {
+        if (!$legend.html()) {
             // Either no data or no labels
             return;
         }
         var $labelFormatter = $options.legend.labelFormatter,
             $legendPosition = (function () {
-                var html = $legend.html(),
-                    top = html.match(/top: (\d+)px;/),
+                var top = html.match(/top: (\d+)px;/),
                     right = html.match(/right: (\d+)px;/),
                     bottom = html.match(/bottom: (\d+)px;/),
                     left = html.match(/left: (\d+)px;/),
