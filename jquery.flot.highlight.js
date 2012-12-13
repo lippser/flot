@@ -22,6 +22,7 @@
         $.each(markedSeries, function (i, $series) {
             $data[i].lines.lineWidth = $series.lineWidth;
         });
+        markedSeries = {};
     }
     function highlightHandler(e, pos, $item) {
         var dirty = $.isEmptyObject(markedSeries);
