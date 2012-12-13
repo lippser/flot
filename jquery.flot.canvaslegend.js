@@ -29,10 +29,10 @@
         }
         var $labelFormatter = $options.legend.labelFormatter,
             $legendPosition = (function () {
-                var top = html.match(/top: (\d+)px;/),
-                    right = html.match(/right: (\d+)px;/),
-                    bottom = html.match(/bottom: (\d+)px;/),
-                    left = html.match(/left: (\d+)px;/),
+                var top = $legendHtml.match(/top: (\d+)px;/),
+                    right = $legendHtml.match(/right: (\d+)px;/),
+                    bottom = $legendHtml.match(/bottom: (\d+)px;/),
+                    left = $legendHtml.match(/left: (\d+)px;/),
                     x,
                     y;
                 if (null === left) {
