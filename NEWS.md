@@ -1,4 +1,4 @@
-## Flot 0.8 alpha ##
+## Flot 0.8.0 ##
 
 ### API changes ###
 
@@ -13,21 +13,44 @@ the dates are displayed. If null, the dates are displayed as UTC. If
 "browser", the dates are displayed in the time zone of the user's browser.
 
 Date/time formatting has changed and now follows a proper subset of the
-standard strftime specifiers. Additionally, if a strftime function is found in
-the Date object's prototype, it will be used instead of the built-in
-formatter.
+standard strftime specifiers, plus one nonstandard specifier for quarters.
+Additionally, if a strftime function is found in the Date object's prototype,
+it will be used instead of the built-in formatter.
 
-Axis labels are now drawn with canvas text with some parsing to support
-newlines. This solves various issues but also means that they no longer
-support HTML markup, can be accessed as DOM elements or styled directly with
-CSS. Some older browsers lack this function of the canvas API (this doesn't
-affect IE); if this is a problem, either continue using an older version of
-Flot or try an emulation helper such as canvas-text or Flashcanvas.
+Axis tick labels now use the class 'flot-tick-label' instead of 'tickLabel'.
+The text containers  for each axis now use the classes 'flot-[x|y]-axis' and
+'flot-[x|y]#-axis' instead of '[x|y]Axis' and '[x|y]#Axis'. For compatibility
+with Flot 0.7 and earlier text will continue to use the old classes as well,
+but they are considered deprecated and will be removed in a future version.
+
+In previous versions the axis 'color' option was used to set the color of tick
+marks and their label text. It now controls the color of the axis line, which
+previously could not be changed separately, and continues to act as a default
+for the tick-mark color.  The color of tick label text is now set either by
+overriding the 'flot-tick-label' CSS rule or via the axis 'font' option.
+
+A new plugin, jquery.flot.canvas.js, allows axis tick labels to be rendered
+directly to the canvas, rather than using HTML elements. This feature can be
+toggled with a simple option, making it easy to create interactive plots in the
+browser using HTML, then re-render them to canvas for export as an image.
+
+The plugin tries to remain as faithful as possible to the original HTML render,
+and goes so far as to automatically extract styles from CSS, to avoid having to
+provide a separate set of styles when rendering to canvas. Due to limitations
+of the canvas text API, the plugin cannot reproduce certain features, including
+HTML markup embedded in labels, and advanced text styles such as 'em' units.
+
+The plugin requires support for canvas text, which may not be present in some
+older browsers, even if they support the canvas tag itself. To use the plugin
+with these browsers try using a shim such as canvas-text or FlashCanvas.
 
 The base and overlay canvas are now using the CSS classes "flot-base" and
 "flot-overlay" to prevent accidental clashes (issue 540).
 
 ### Changes ###
+
+ - Addition of nonstandard %q specifier to date/time formatting. (patch
+   by risicle, issue 49)
 
  - Date/time formatting follows proper subset of strftime specifiers, and
    support added for Date.prototype.strftime, if found. (patch by Mark Cote,
@@ -40,7 +63,8 @@ The base and overlay canvas are now using the CSS classes "flot-base" and
  - Display time series in different time zones. (patch by Knut Forkalsrud,
    issue 141)
 
- - Canvas text support for labels. (sponsored by YCharts.com)
+ - Added a canvas plugin to enable rendering axis tick labels to the canvas.
+   (sponsored by YCharts.com, implementation by Ole Laursen and David Schnur)
 
  - Support for setting the interval between redraws of the overlay canvas with
    redrawOverlayInterval. (suggested in issue 185)
@@ -98,6 +122,20 @@ The base and overlay canvas are now using the CSS classes "flot-base" and
  - The selection plugin's getSelection now returns null when the selection
    has been cleared. (patch by Nick Campbell, pull request #852)
 
+ - Added a new option called 'zero' to bars and filled lines series, to control
+   whether the y-axis minimum is scaled to fit the data or set to zero.
+   (patch by David Schnur, issues #316, #529, and #856, pull request #911)
+
+ - The plot function is now also a jQuery chainable property.
+   (patch by David Schnur, issues #734 and #816, pull request #953)
+
+ - When only a single pie slice is beneath the combine threshold it is no longer
+   replaced by an 'other' slice. (suggested by Devin Bayer, issue #638)
+
+ - Added lineJoin and minSize options to the selection plugin to control the
+   corner style and minimum size of the selection, respectively.
+   (patch by Ruth Linehan, pull request #963)
+
 ### Bug fixes ###
 
  - Fix problem with null values and pie plugin. (patch by gcruxifix,
@@ -154,6 +192,50 @@ The base and overlay canvas are now using the CSS classes "flot-base" and
    and #850, pull request #879)
 
  - Prevented several local variables from becoming global. (patch by aaa707)
+
+ - Ensure that the overlay and primary canvases remain aligned. (issue #670,
+   pull request #901)
+
+ - Added support for jQuery 1.9 by removing and replacing uses of $.browser.
+   (analysis and patch by Anthony Ryan, pull request #905)
+
+ - Pie charts no longer disappear when redrawn during a resize or update.
+   (reported by Julien Bec, issue #656, pull request #910)
+
+ - Avoided floating-point precision errors when calculating pie percentages.
+   (patch by James Ward, pull request #918)
+
+ - Fixed compatibility with jQuery 1.2.6, which has no 'mouseleave' shortcut.
+   (reported by Bevan, original pull request #920, replaced by direct patch)
+
+ - Fixed sub-pixel rendering issues with crosshair and selection lines.
+   (patches by alanayoub and Daniel Shapiro, pull requests #17 and #925)
+
+ - Fixed rendering issues when using the threshold plugin with several series.
+   (patch by Ivan Novikov, pull request #934)
+
+ - Pie charts no longer disappear when redrawn after calling setData().
+   (reported by zengge1984 and pareeohnos, issues #810 and #945)
+
+ - Added a work-around for the problem where points with a lineWidth of zero
+   still showed up with a visible line. (reported by SalvoSav, issue #842,
+   patch by Jamie Hamel-Smith, pull request #937)
+
+ - Pie charts now accept values in string form, like other plot types.
+   (reported by laerdal.no, issue #534)
+
+ - Avoid rounding errors in the threshold plugin.
+   (reported by jerikojerk, issue #895)
+
+ - Fixed an error when using the navigate plugin with jQuery 1.9.x or later.
+   (reported by Paolo Valleri, issue #964)
+
+ - Fixed inconsistencies between the highlight and unhighlight functions.
+   (reported by djamshed, issue #987)
+
+ - Fixed recalculation of tickSize and tickDecimals on calls to setupGrid.
+   (patch by thecountofzero, pull request #861, issues #860, #1000)
+
 
 ## Flot 0.7 ##
 
